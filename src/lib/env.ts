@@ -9,6 +9,7 @@ const envSchema = z
   .object({
     POSTGRES_URL_NON_POOLING: z.string().url().optional(),
     POSTGRES_PRISMA_URL: z.string().url().optional(),
+    DATABASE_URL: z.string().url().optional(),
     NEXT_PUBLIC_BASE_URL: z
       .string()
       .optional()
