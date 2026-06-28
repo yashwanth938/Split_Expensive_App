@@ -1,127 +1,98 @@
-[<img alt="Spliit" height="60" src="https://github.com/spliit-app/spliit/blob/main/public/logo-with-text.png?raw=true" />](https://spliit.app)
+# Split Wise — Modern AI-Powered Expense Splitting
 
-Spliit is a free and open source alternative to Splitwise. You can either use the official instance at [Spliit.app](https://spliit.app), or deploy your own instance:
+**Split Wise** is a modern, premium, privacy-first alternative to Splitwise. Built as a sleek Progressive Web App (PWA), it requires **no registration or login**—your groups are saved directly to your browser's local storage. Simply create a group, share the link, and begin managing shared expenses.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fspliit-app%2Fspliit&project-name=my-spliit-instance&repository-name=my-spliit-instance&stores=%5B%7B%22type%22%3A%22postgres%22%7D%5D&)
+---
 
-## Features
+## 🌟 Modern Key Features
 
-- [x] Create a group and share it with friends
-- [x] Create expenses with description
-- [x] Display group balances
-- [x] Create reimbursement expenses
-- [x] Progressive Web App
-- [x] Select all/no participant for expenses
-- [x] Split expenses unevenly [(#6)](https://github.com/spliit-app/spliit/issues/6)
-- [x] Mark a group as favorite [(#29)](https://github.com/spliit-app/spliit/issues/29)
-- [x] Tell the application who you are when opening a group [(#7)](https://github.com/spliit-app/spliit/issues/7)
-- [x] Assign a category to expenses [(#35)](https://github.com/spliit-app/spliit/issues/35)
-- [x] Search for expenses in a group [(#51)](https://github.com/spliit-app/spliit/issues/51)
-- [x] Upload and attach images to expenses [(#63)](https://github.com/spliit-app/spliit/issues/63)
-- [x] Create expense by scanning a receipt [(#23)](https://github.com/spliit-app/spliit/issues/23)
+### 🤖 AI-Powered Integrations
+* **AI Receipt Scanning**: Instantly extract expense titles, amounts, and dates by uploading or scanning a receipt. Powered by **OpenAI GPT-4 Vision** integration.
+* **AI Category Auto-Recommendation**: Type in an expense title (e.g., *"Dinner at Mario's"*) and the app will automatically recommend the correct spending category (e.g., *"Food & Drink / Dining Out"*) in real-time.
 
-### Possible incoming features
+### 💸 Smart Calculations & Splits
+* **Optimized Settlement Engine**: Get a clean list of who needs to pay whom. The engine computes optimized settlement steps to minimize the number of required cash transfers.
+* **Flexible Split Modes**: Split bills evenly, by custom shares, by percentages, or exact amounts.
+* **Multi-Currency Support**: Add expenses in any currency and let the app automatically fetch daily exchange rates or configure a custom rate.
+* **Recurring Expenses**: SetupDAILY, WEEKLY, or MONTHLY recurring expenses that post automatically.
 
-- [ ] Ability to create recurring expenses [(#5)](https://github.com/spliit-app/spliit/issues/5)
-- [ ] Import expenses from Splitwise [(#22)](https://github.com/spliit-app/spliit/issues/22)
+### 🎨 Premium UI & Design
+* **Glassmorphic Cards**: Beautiful semi-transparent overlays with smooth borders.
+* **Theme Switching**: Built-in sleek Dark Mode and Light Mode with fluid transitions.
+* **Pill Navigation**: Segmented sliding menu controls with micro-icon triggers.
+* **Progress Bar Balances**: Clear color-coded indicators of who is ahead (emerald) or behind (rose).
 
-## Stack
+---
 
-- [Next.js](https://nextjs.org/) for the web application
-- [TailwindCSS](https://tailwindcss.com/) for the styling
-- [shadcn/UI](https://ui.shadcn.com/) for the UI components
-- [Prisma](https://prisma.io) to access the database
-- [Vercel](https://vercel.com/) for hosting (application and database)
+## 🚀 Tech Stack
 
-## Contribute
+* **Frontend**: [Next.js](https://nextjs.org/) (App Router & React 19)
+* **Styling**: [Tailwind CSS v3](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+* **Database**: PostgreSQL with [Prisma ORM](https://prisma.io)
+* **API Layer**: [tRPC](https://trpc.io/) for end-to-end type safety
+* **Hosting**: Optimised for [Vercel](https://vercel.com/) and Docker compose setups
 
-The project is open to contributions. Feel free to open an issue or even a pull-request! 
-Join the discussion in [the Spliit Discord server](https://discord.gg/YSyVXbwvSY).
+---
 
-If you want to contribute financially and help us keep the application free and without ads, you can also:
+## 💻 Run Locally
 
-- 💜 [Sponsor me (Sebastien)](https://github.com/sponsors/scastiel), or
-- 💙 [Make a small one-time donation](https://donate.stripe.com/28o3eh96G7hH8k89Ba).
+### 1. Clone the repository
+Clone this repository to your local system and check out the `main` branch.
 
-### Translation
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
+```
 
-The project's translations are managed using [our Weblate project](https://hosted.weblate.org/projects/spliit/spliit/). 
-You can easily add missing translations to the project or even add a new language!
-Here is the current state of translation:
+Ensure you have your PostgreSQL database connection strings set up:
+```.env
+POSTGRES_PRISMA_URL="postgresql://username:password@localhost:5432/splitwise"
+POSTGRES_URL_NON_POOLING="postgresql://username:password@localhost:5432/splitwise"
+```
 
-<a href="https://hosted.weblate.org/engage/spliit/">
-<img src="https://hosted.weblate.org/widget/spliit/spliit/multi-auto.svg" alt="Translation status" />
-</a>
+### 3. Setup Dependencies
+Install dependencies and generate the Prisma Client:
+```bash
+npm install --ignore-scripts
+npx prisma generate
+```
 
-## Run locally
+### 4. Apply Database Migrations
+Deploy the database schema:
+```bash
+npx prisma migrate deploy
+```
 
-1. Clone the repository (or fork it if you intend to contribute)
-2. Start a PostgreSQL server. You can run `./scripts/start-local-db.sh` if you don’t have a server already.
-3. Copy the file `.env.example` as `.env`
-4. Run `npm install` to install dependencies. This will also apply database migrations and update Prisma Client.
-5. Run `npm run dev` to start the development server
+### 5. Launch Dev Server
+Start the Next.js development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Run in a container
+---
 
-1. Run `npm run build-image` to build the docker image from the Dockerfile
-2. Copy the file `container.env.example` as `container.env`
-3. Run `npm run start-container` to start the postgres and the spliit2 containers
-4. You can access the app by browsing to http://localhost:3000
+## 🛠️ Opt-In AI & Cloud Features
 
-## Health check
-
-The application has a health check endpoint that can be used to check if the application is running and if the database is accessible.
-
-- `GET /api/health/readiness` or `GET /api/health` - Check if the application is ready to serve requests, including database connectivity.
-- `GET /api/health/liveness` - Check if the application is running, but not necessarily ready to serve requests.
-
-## Opt-in features
-
-### Expense documents
-
-Spliit offers users to upload images (to an AWS S3 bucket) and attach them to expenses. To enable this feature:
-
-- Follow the instructions in the _S3 bucket_ and _IAM user_ sections of [next-s3-upload](https://next-s3-upload.codingvalue.com/setup#s3-bucket) to create and set up an S3 bucket where images will be stored.
-- Update your environments variables with appropriate values:
-
+### AI Receipt Scanning
+Activate GPT-4 Vision receipt parsing by providing your OpenAI API key and enabling documents upload:
 ```.env
 NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS=true
-S3_UPLOAD_KEY=AAAAAAAAAAAAAAAAAAAA
-S3_UPLOAD_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-S3_UPLOAD_BUCKET=name-of-s3-bucket
-S3_UPLOAD_REGION=us-east-1
-```
-
-You can also use other S3 providers by providing a custom endpoint:
-
-```.env
-S3_UPLOAD_ENDPOINT=http://localhost:9000
-```
-
-### Create expense from receipt
-
-You can offer users to create expense by uploading a receipt. This feature relies on [OpenAI GPT-4 with Vision](https://platform.openai.com/docs/guides/vision) and a public S3 storage endpoint.
-
-To enable the feature:
-
-- You must enable expense documents feature as well (see section above). That might change in the future, but for now we need to store images to make receipt scanning work.
-- Subscribe to OpenAI API and get access to GPT 4 with Vision (you might need to buy credits in advance).
-- Update your environment variables with appropriate values:
-
-```.env
 NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT=true
-OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+OPENAI_API_KEY="your-openai-api-key"
 ```
+*(Requires AWS S3 configurations for image hosting, see the codebase for further details).*
 
-### Deduce category from title
-
-You can offer users to automatically deduce the expense category from the title. Since this feature relies on a OpenAI subscription, follow the signup instructions above and configure the following environment variables:
-
+### AI Category Recommendation
+Auto-deduce categories from titles by adding:
 ```.env
 NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
-OPENAI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+OPENAI_API_KEY="your-openai-api-key"
 ```
 
-## License
+---
 
-MIT, see [LICENSE](./LICENSE).
+## 📄 License
+
+MIT. See [LICENSE](./LICENSE) for details.
