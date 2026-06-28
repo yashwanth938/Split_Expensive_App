@@ -37,7 +37,7 @@ const envSchema = z
     ),
     OPENAI_API_KEY: z.string().optional(),
   })
-  .superRefine((env, ctx) => {
+  .superRefine((env) => {
     if (
       env.NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS &&
       // S3_UPLOAD_ENDPOINT is fully optional as it will only be used for providers other than AWS
@@ -46,22 +46,14 @@ const envSchema = z
         !env.S3_UPLOAD_REGION ||
         !env.S3_UPLOAD_SECRET)
     ) {
-      ctx.addIssue({
-        code: ZodIssueCode.custom,
-        message:
-          'If NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS is specified, then S3_* must be specified too',
-      })
+      console.warn('Warning: NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS is enabled, but S3_* variables are not fully configured.')
     }
     if (
       (env.NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT ||
         env.NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT) &&
       !env.OPENAI_API_KEY
     ) {
-      ctx.addIssue({
-        code: ZodIssueCode.custom,
-        message:
-          'If NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is specified, then OPENAI_API_KEY must be specified too',
-      })
+      console.warn('Warning: NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT or NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT is enabled, but OPENAI_API_KEY is not configured.')
     }
   })
 
