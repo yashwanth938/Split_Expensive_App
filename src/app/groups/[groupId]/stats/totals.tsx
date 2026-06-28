@@ -37,7 +37,7 @@ export function Totals() {
   const currency = getCurrencyFromGroup(group)
 
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <TotalsGroupSpending
         totalGroupSpendings={totalGroupSpendings}
         currency={currency}
@@ -54,6 +54,6 @@ export function Totals() {
           />
         </>
       )}
-    </>
+    </div>
   )
 }
