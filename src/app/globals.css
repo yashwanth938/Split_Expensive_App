@@ -55,14 +55,49 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
 }
 
+/* Custom Floating & Fade-In Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Landing Page Heading Gradient */
 .landing-header {
-  @apply bg-gradient-to-br from-emerald-800 to-emerald-600 dark:from-emerald-300 dark:to-emerald-600 bg-clip-text;
+  @apply bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 dark:from-emerald-400 dark:via-teal-300 dark:to-cyan-300 bg-clip-text text-transparent;
 }
 
 .landing-header strong {
-  @apply font-bold text-transparent;
+  @apply font-black tracking-tight;
 }
+
+/* Glassmorphism Styles */
+.glass-panel {
+  @apply bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border border-white/20 dark:border-white/5 shadow-xl;
+}
+
+.glass-card {
+  @apply bg-white/40 dark:bg-slate-900/40 backdrop-blur-sm border border-white/10 dark:border-white/5 transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-900/50 hover:shadow-lg hover:-translate-y-0.5;
+}
+
+/* Premium gradient backgrounds */
+.bg-gradient-radial-subtle {
+  background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+}
+

@@ -64,54 +64,76 @@ export function ExpenseCard({
     <div
       key={expense.id}
       className={cn(
-        'flex justify-between sm:mx-6 px-4 sm:rounded-lg sm:pr-2 sm:pl-4 py-4 text-sm cursor-pointer hover:bg-accent gap-1 items-stretch',
-        expense.isReimbursement && 'italic',
+        'group flex items-center justify-between p-4 sm:mx-6 rounded-xl border border-slate-100 dark:border-slate-800/80 bg-card hover:border-emerald-500/30 dark:hover:border-emerald-500/20 hover:shadow-md transition-all duration-300 cursor-pointer gap-4',
+        expense.isReimbursement && 'bg-blue-500/[0.02] dark:bg-blue-500/[0.01]',
       )}
       onClick={() => {
         router.push(`/groups/${groupId}/expenses/${expense.id}/edit`)
       }}
     >
-      <CategoryIcon
-        category={expense.category}
-        className="w-4 h-4 mr-2 mt-0.5 text-muted-foreground"
-      />
-      <div className="flex-1">
-        <div className={cn('mb-1', expense.isReimbursement && 'italic')}>
-          {expense.title}
+      <div className="flex items-center gap-3.5 flex-1 min-w-0">
+        {/* Category Icon Badge */}
+        <div className={cn(
+          "h-11 w-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 duration-300",
+          expense.isReimbursement 
+            ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+            : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+        )}>
+          <CategoryIcon
+            category={expense.category}
+            className="w-5 h-5"
+          />
         </div>
-        <div className="text-xs text-muted-foreground">
-          <Participants expense={expense} participantCount={participantCount} />
-        </div>
-        <div className="text-xs text-muted-foreground">
-          <ActiveUserBalance {...{ groupId, currency, expense }} />
+
+        {/* Expense Info */}
+        <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+          <div className={cn(
+            'font-bold text-sm sm:text-base text-slate-800 dark:text-slate-200 truncate',
+            expense.isReimbursement && 'italic text-indigo-950 dark:text-indigo-200'
+          )}>
+            {expense.title}
+          </div>
+          <div className="text-[11px] sm:text-xs text-muted-foreground truncate leading-relaxed">
+            <Participants expense={expense} participantCount={participantCount} />
+          </div>
+          <div className="leading-relaxed">
+            <ActiveUserBalance {...{ groupId, currency, expense }} />
+          </div>
         </div>
       </div>
-      <div className="flex flex-col justify-between items-end">
-        <div
-          className={cn(
-            'tabular-nums whitespace-nowrap',
-            expense.isReimbursement ? 'italic' : 'font-bold',
-          )}
+
+      {/* Right side Details */}
+      <div className="flex items-center gap-2">
+        <div className="flex flex-col items-end gap-1 flex-shrink-0">
+          <div
+            className={cn(
+              'tabular-nums text-sm sm:text-base whitespace-nowrap',
+              expense.isReimbursement 
+                ? 'italic font-medium text-indigo-600 dark:text-indigo-400' 
+                : 'font-extrabold text-slate-800 dark:text-slate-100',
+            )}
+          >
+            {expense.isReimbursement && 'Reimbursement: '}{formatCurrency(currency, expense.amount, locale)}
+          </div>
+          <div className="flex items-center gap-2 text-[10px] sm:text-xs text-slate-400">
+            <DocumentsCount count={expense._count.documents} />
+            <span>
+              {formatDateOnly(expense.expenseDate, locale, { dateStyle: 'medium' })}
+            </span>
+          </div>
+        </div>
+
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-8 w-8 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hidden sm:flex flex-shrink-0"
+          asChild
         >
-          {formatCurrency(currency, expense.amount, locale)}
-        </div>
-        <div className="text-xs text-muted-foreground">
-          <DocumentsCount count={expense._count.documents} />
-        </div>
-        <div className="text-xs text-muted-foreground">
-          {formatDateOnly(expense.expenseDate, locale, { dateStyle: 'medium' })}
-        </div>
+          <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`} onClick={(e) => e.stopPropagation()}>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </Button>
       </div>
-      <Button
-        size="icon"
-        variant="link"
-        className="self-center hidden sm:flex"
-        asChild
-      >
-        <Link href={`/groups/${groupId}/expenses/${expense.id}/edit`}>
-          <ChevronRight className="w-4 h-4" />
-        </Link>
-      </Button>
     </div>
   )
 }

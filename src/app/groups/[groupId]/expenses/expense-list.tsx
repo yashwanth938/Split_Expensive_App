@@ -87,13 +87,15 @@ export function ExpenseList() {
   }, [groupId, participants])
 
   return (
-    <>
-      <SearchBar onValueChange={(value) => setSearchText(value)} />
+    <div className="flex flex-col gap-4">
+      <div className="px-4 sm:px-6 pt-4">
+        <SearchBar onValueChange={(value) => setSearchText(value)} />
+      </div>
       <ExpenseListForSearch
         groupId={groupId}
         searchText={debouncedSearchText}
       />
-    </>
+    </div>
   )
 }
 
@@ -142,9 +144,9 @@ const ExpenseListForSearch = ({
 
   if (expenses.length === 0)
     return (
-      <p className="px-6 text-sm py-6">
+      <p className="px-6 text-sm py-8 text-muted-foreground text-center">
         {t('noExpenses')}{' '}
-        <Button variant="link" asChild className="-m-4">
+        <Button variant="link" asChild className="p-0 h-auto font-semibold text-emerald-600 dark:text-emerald-400">
           <Link href={`/groups/${groupId}/expenses/create`}>
             {t('createFirst')}
           </Link>
@@ -153,34 +155,36 @@ const ExpenseListForSearch = ({
     )
 
   return (
-    <>
+    <div className="flex flex-col gap-1">
       {Object.values(EXPENSE_GROUPS).map((expenseGroup: string) => {
         let groupExpenses = groupedExpensesByDate[expenseGroup]
         if (!groupExpenses || groupExpenses.length === 0) return null
 
         return (
-          <div key={expenseGroup}>
+          <div key={expenseGroup} className="flex flex-col gap-1.5">
             <div
               className={
-                'text-muted-foreground text-xs pl-4 sm:pl-6 py-1 font-semibold sticky top-16 bg-white dark:bg-[#1b1917]'
+                'text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase px-4 sm:px-6 py-2 sticky top-16 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm z-10 border-y border-slate-100 dark:border-slate-900/60'
               }
             >
               {t(`Groups.${expenseGroup}`)}
             </div>
-            {groupExpenses.map((expense) => (
-              <ExpenseCard
-                key={expense.id}
-                expense={expense}
-                currency={getCurrencyFromGroup(group)}
-                groupId={groupId}
-                participantCount={group.participants.length}
-              />
-            ))}
+            <div className="flex flex-col gap-2.5 px-0 sm:px-0">
+              {groupExpenses.map((expense) => (
+                <ExpenseCard
+                  key={expense.id}
+                  expense={expense}
+                  currency={getCurrencyFromGroup(group)}
+                  groupId={groupId}
+                  participantCount={group.participants.length}
+                />
+              ))}
+            </div>
           </div>
         )
       })}
       {hasMore && <ExpensesLoading ref={loadingRef} />}
-    </>
+    </div>
   )
 }
 

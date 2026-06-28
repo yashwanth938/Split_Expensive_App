@@ -34,27 +34,28 @@ export default function GroupExpensesPageClient({
 
   return (
     <>
-      <Card className="mb-4 rounded-none -mx-4 border-x-0 sm:border-x sm:rounded-lg sm:mx-0">
-        <div className="flex flex-1">
-          <CardHeader className="flex-1 p-4 sm:p-6">
-            <CardTitle>{t('title')}</CardTitle>
-            <CardDescription>{t('description')}</CardDescription>
-          </CardHeader>
-          <CardHeader className="p-4 sm:p-6 flex flex-row space-y-0 gap-2">
+      <Card className="mb-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 p-5 sm:p-6 gap-4">
+          <div className="flex-1 flex flex-col gap-0.5">
+            <CardTitle className="text-xl font-bold text-slate-800 dark:text-slate-100">{t('title')}</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground leading-relaxed">{t('description')}</CardDescription>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
             <ExportButton groupId={groupId} />
             {enableReceiptExtract && <CreateFromReceiptButton />}
-            <Button asChild size="icon">
+            <Button asChild className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold transition-all duration-300 shadow-sm gap-1.5 px-3.5 sm:px-4 h-9 rounded-lg">
               <Link
                 href={`/groups/${groupId}/expenses/create`}
                 title={t('create')}
               >
                 <Plus className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs font-semibold">{t('create')}</span>
               </Link>
             </Button>
-          </CardHeader>
+          </div>
         </div>
 
-        <CardContent className="p-0 pt-2 pb-4 sm:pb-6 flex flex-col gap-4 relative">
+        <CardContent className="p-0 pb-4 sm:pb-6 flex flex-col gap-4 relative">
           <ExpenseList />
         </CardContent>
       </Card>

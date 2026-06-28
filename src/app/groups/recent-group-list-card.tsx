@@ -41,119 +41,116 @@ export function RecentGroupListCard({
   const t = useTranslations('Groups')
 
   return (
-    <li key={group.id}>
-      <Button
-        variant="secondary"
-        className="h-fit w-full py-3 rounded-lg border bg-card shadow-sm"
-        asChild
+    <li key={group.id} className="list-none">
+      <div
+        className="group relative rounded-xl border border-slate-200 dark:border-slate-800 bg-card p-5 hover:border-emerald-500/30 dark:hover:border-emerald-500/30 hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-4 cursor-pointer hover:-translate-y-0.5"
+        onClick={() => router.push(`/groups/${group.id}`)}
       >
-        <div
-          className="text-base"
-          onClick={() => router.push(`/groups/${group.id}`)}
-        >
-          <div className="w-full flex flex-col gap-1">
-            <div className="text-base flex gap-2 justify-between">
-              <Link
-                href={`/groups/${group.id}`}
-                className="flex-1 overflow-hidden text-ellipsis"
-              >
-                {group.name}
-              </Link>
-              <span className="flex-shrink-0">
+        <div className="flex items-start justify-between gap-3">
+          <Link
+            href={`/groups/${group.id}`}
+            onClick={(e) => e.stopPropagation()}
+            className="font-bold text-lg text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors overflow-hidden text-ellipsis whitespace-nowrap flex-1"
+          >
+            {group.name}
+          </Link>
+          
+          <div className="flex items-center gap-1.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              onClick={(event) => {
+                event.stopPropagation()
+                if (isStarred) {
+                  unstarGroup(group.id)
+                } else {
+                  starGroup(group.id)
+                  unarchiveGroup(group.id)
+                }
+                refreshGroupsFromStorage()
+              }}
+            >
+              {isStarred ? (
+                <StarFilledIcon className="w-4 h-4 text-amber-500" />
+              ) : (
+                <Star className="w-4 h-4 text-muted-foreground hover:text-amber-500 transition-colors" />
+              )}
+            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="-my-3 -ml-3 -mr-1.5"
+                  className="h-8 w-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-xl border border-slate-100 dark:border-slate-800">
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive focus:bg-destructive/10 rounded-lg cursor-pointer"
                   onClick={(event) => {
                     event.stopPropagation()
-                    if (isStarred) {
-                      unstarGroup(group.id)
-                    } else {
-                      starGroup(group.id)
+                    deleteRecentGroup(group)
+                    refreshGroupsFromStorage()
+
+                    toast.toast({
+                      title: t('RecentRemovedToast.title'),
+                      description: t('RecentRemovedToast.description'),
+                    })
+                  }}
+                >
+                  {t('removeRecent')}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="rounded-lg cursor-pointer"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    if (isArchived) {
                       unarchiveGroup(group.id)
+                    } else {
+                      archiveGroup(group.id)
+                      unstarGroup(group.id)
                     }
                     refreshGroupsFromStorage()
                   }}
                 >
-                  {isStarred ? (
-                    <StarFilledIcon className="w-4 h-4 text-orange-400" />
-                  ) : (
-                    <Star className="w-4 h-4 text-muted-foreground" />
-                  )}
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="-my-3 -mr-3 -ml-1.5"
-                    >
-                      <MoreHorizontal className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      className="text-destructive"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        deleteRecentGroup(group)
-                        refreshGroupsFromStorage()
-
-                        toast.toast({
-                          title: t('RecentRemovedToast.title'),
-                          description: t('RecentRemovedToast.description'),
-                        })
-                      }}
-                    >
-                      {t('removeRecent')}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        if (isArchived) {
-                          unarchiveGroup(group.id)
-                        } else {
-                          archiveGroup(group.id)
-                          unstarGroup(group.id)
-                        }
-                        refreshGroupsFromStorage()
-                      }}
-                    >
-                      {t(isArchived ? 'unarchive' : 'archive')}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </span>
-            </div>
-            <div className="text-muted-foreground font-normal text-xs">
-              {groupDetail ? (
-                <div className="w-full flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 inline mr-1" />
-                    <span>{groupDetail._count.participants}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 inline mx-1" />
-                    <span>
-                      {new Date(groupDetail.createdAt).toLocaleDateString(
-                        locale,
-                        {
-                          dateStyle: 'medium',
-                        },
-                      )}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex justify-between">
-                  <Skeleton className="h-4 w-6 rounded-full" />
-                  <Skeleton className="h-4 w-24 rounded-full" />
-                </div>
-              )}
-            </div>
+                  {t(isArchived ? 'unarchive' : 'archive')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-      </Button>
+
+        <div className="text-muted-foreground font-normal text-xs pt-1 border-t border-slate-100 dark:border-slate-800/60">
+          {groupDetail ? (
+            <div className="w-full flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
+                <Users className="w-3.5 h-3.5" />
+                <span className="font-semibold text-[11px]">{groupDetail._count.participants}</span>
+              </div>
+              <div className="flex items-center gap-1 text-slate-400">
+                <Calendar className="w-3.5 h-3.5" />
+                <span>
+                  {new Date(groupDetail.createdAt).toLocaleDateString(
+                    locale,
+                    {
+                      dateStyle: 'medium',
+                    },
+                  )}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between items-center">
+              <Skeleton className="h-4 w-12 rounded-md" />
+              <Skeleton className="h-4 w-20 rounded-md" />
+            </div>
+          )}
+        </div>
+      </div>
     </li>
   )
 }

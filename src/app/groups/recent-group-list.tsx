@@ -143,8 +143,11 @@ function RecentGroupList_({
   return (
     <GroupsPage reload={refreshGroupsFromStorage}>
       {starredGroupInfo.length > 0 && (
-        <>
-          <h2 className="mb-2">{t('starred')}</h2>
+        <div className="animate-fade-in">
+          <h2 className="text-[11px] font-bold tracking-wider text-amber-600 dark:text-amber-400 uppercase mt-6 mb-3 flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+            {t('starred')}
+          </h2>
           <GroupList
             groups={starredGroupInfo}
             groupDetails={data.groups}
@@ -152,12 +155,15 @@ function RecentGroupList_({
             starredGroups={starredGroups}
             refreshGroupsFromStorage={refreshGroupsFromStorage}
           />
-        </>
+        </div>
       )}
 
       {groupInfo.length > 0 && (
-        <>
-          <h2 className="mt-6 mb-2">{t('recent')}</h2>
+        <div className="animate-fade-in">
+          <h2 className="text-[11px] font-bold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase mt-8 mb-3 flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            {t('recent')}
+          </h2>
           <GroupList
             groups={groupInfo}
             groupDetails={data.groups}
@@ -165,13 +171,16 @@ function RecentGroupList_({
             starredGroups={starredGroups}
             refreshGroupsFromStorage={refreshGroupsFromStorage}
           />
-        </>
+        </div>
       )}
 
       {archivedGroupInfo.length > 0 && (
-        <>
-          <h2 className="mt-6 mb-2 opacity-50">{t('archived')}</h2>
-          <div className="opacity-50">
+        <div className="animate-fade-in opacity-75 hover:opacity-100 transition-opacity">
+          <h2 className="text-[11px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase mt-8 mb-3 flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+            {t('archived')}
+          </h2>
+          <div>
             <GroupList
               groups={archivedGroupInfo}
               groupDetails={data.groups}
@@ -180,7 +189,7 @@ function RecentGroupList_({
               refreshGroupsFromStorage={refreshGroupsFromStorage}
             />
           </div>
-        </>
+        </div>
       )}
     </GroupsPage>
   )
@@ -200,7 +209,7 @@ function GroupList({
   refreshGroupsFromStorage: () => void
 }) {
   return (
-    <ul className="grid gap-2 sm:grid-cols-2">
+    <ul className="grid gap-4 sm:grid-cols-2">
       {groups.map((group) => (
         <RecentGroupListCard
           key={group.id}
@@ -223,22 +232,26 @@ function GroupsPage({
 }: PropsWithChildren<{ reload: () => void }>) {
   const t = useTranslations('Groups')
   return (
-    <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <h1 className="font-bold text-2xl flex-1">
-          <Link href="/groups">{t('myGroups')}</Link>
-        </h1>
-        <div className="flex gap-2">
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+        <div>
+          <h1 className="font-extrabold text-2xl tracking-tight text-slate-800 dark:text-slate-100">
+            <Link href="/groups" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+              {t('myGroups')}
+            </Link>
+          </h1>
+          <p className="text-xs text-muted-foreground mt-0.5">Manage and track your shared balances</p>
+        </div>
+        <div className="flex items-center gap-2">
           <AddGroupByUrlButton reload={reload} />
-          <Button asChild>
+          <Button asChild className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold transition-all duration-300 shadow-sm">
             <Link href="/groups/create">
-              {/* <Plus className="w-4 h-4 mr-2" /> */}
               {t('create')}
             </Link>
           </Button>
         </div>
       </div>
-      <div>{children}</div>
-    </>
+      <div className="flex flex-col gap-4">{children}</div>
+    </div>
   )
 }

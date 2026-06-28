@@ -442,13 +442,13 @@ export function ExpenseForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
-        <Card>
-          <CardHeader>
-            <CardTitle>
+        <Card className="rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+          <CardHeader className="pb-4 p-5 sm:p-6 border-b border-slate-100 dark:border-slate-900/60 mb-6 bg-slate-50/50 dark:bg-slate-900/10">
+            <CardTitle className="text-xl font-bold text-slate-800 dark:text-slate-100">
               {t(`${sExpense}.${isCreate ? 'create' : 'edit'}`)}
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid sm:grid-cols-2 gap-6">
+          <CardContent className="grid sm:grid-cols-2 gap-6 p-5 sm:p-6 pt-0">
             <FormField
               control={form.control}
               name="title"
@@ -808,14 +808,14 @@ export function ExpenseForm({
           </CardContent>
         </Card>
 
-        <Card className="mt-4">
-          <CardHeader>
-            <CardTitle className="flex justify-between">
+        <Card className="mt-6 rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+          <CardHeader className="pb-4 p-5 sm:p-6 border-b border-slate-100 dark:border-slate-900/60 mb-4 bg-slate-50/50 dark:bg-slate-900/10">
+            <CardTitle className="text-lg font-bold text-slate-800 dark:text-slate-100 flex justify-between items-center">
               <span>{t(`${sExpense}.paidFor.title`)}</span>
               <Button
                 variant="link"
                 type="button"
-                className="-my-2 -mx-4"
+                className="h-auto p-0 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 hover:no-underline"
                 onClick={() => {
                   const paidFor = form.getValues().paidFor
                   const allSelected =
@@ -843,11 +843,11 @@ export function ExpenseForm({
                 )}
               </Button>
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-xs text-muted-foreground leading-relaxed mt-1">
               {t(`${sExpense}.paidFor.description`)}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-5 sm:p-6 pt-0">
             <FormField
               control={form.control}
               name="paidFor"
@@ -864,7 +864,7 @@ export function ExpenseForm({
                             data-id={`${id}/${form.getValues().splitMode}/${
                               group.currency
                             }`}
-                            className="flex flex-wrap gap-y-4 items-center border-t last-of-type:border-b last-of-type:!mb-4 -mx-6 px-6 py-3"
+                            className="flex flex-wrap gap-y-4 items-center border-b border-slate-100 dark:border-slate-800 last-of-type:border-b-0 py-3.5 px-1 hover:bg-slate-500/[0.01] transition-colors"
                           >
                             <FormItem className="flex-1 flex flex-row items-start space-x-3 space-y-0">
                               <FormControl>
@@ -1240,16 +1240,16 @@ export function ExpenseForm({
         </Card>
 
         {runtimeFeatureFlags.enableExpenseDocuments && (
-          <Card className="mt-4">
-            <CardHeader>
-              <CardTitle className="flex justify-between">
+          <Card className="mt-6 rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+            <CardHeader className="pb-4 p-5 sm:p-6 border-b border-slate-100 dark:border-slate-900/60 mb-6 bg-slate-50/50 dark:bg-slate-900/10">
+              <CardTitle className="text-lg font-bold text-slate-800 dark:text-slate-100 flex justify-between">
                 <span>{t('attachDocuments')}</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs text-muted-foreground mt-1">
                 {t(`${sExpense}.attachDescription`)}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-5 sm:p-6 pt-0">
               <FormField
                 control={form.control}
                 name="documents"
@@ -1264,8 +1264,11 @@ export function ExpenseForm({
           </Card>
         )}
 
-        <div className="flex mt-4 gap-2">
-          <SubmitButton loadingContent={t(isCreate ? 'creating' : 'saving')}>
+        <div className="flex mt-8 gap-3 items-center">
+          <SubmitButton 
+            loadingContent={t(isCreate ? 'creating' : 'saving')}
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold shadow-sm transition-all duration-300 h-10 px-5 rounded-lg"
+          >
             <Save className="w-4 h-4 mr-2" />
             {t(isCreate ? 'create' : 'save')}
           </SubmitButton>
@@ -1274,7 +1277,7 @@ export function ExpenseForm({
               onDelete={() => onDelete(activeUserId ?? undefined)}
             ></DeletePopup>
           )}
-          <Button variant="ghost" asChild>
+          <Button variant="outline" className="border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 h-10 px-5 rounded-lg text-slate-700 dark:text-slate-300 font-medium" asChild>
             <Link href={`/groups/${group.id}`}>{t('cancel')}</Link>
           </Button>
         </div>
