@@ -72,15 +72,16 @@ function Content({ children }: { children: React.ReactNode }) {
           className="flex items-center gap-2 hover:scale-105 transition-transform"
           href="/"
         >
-          <h1>
+          <div className="flex items-center gap-2">
             <Image
-              src="/logo-with-text.png"
-              className="m-1 h-auto w-auto"
-              width={(35 * 522) / 180}
-              height={35}
-              alt="Spliit"
+              src="/hero.png"
+              className="h-8 w-8 rounded-lg object-cover"
+              width={32}
+              height={32}
+              alt="Split Wise"
             />
-          </h1>
+            <span className="font-extrabold text-base text-slate-800 dark:text-slate-100 tracking-tight">Split Wise</span>
+          </div>
         </Link>
         <div role="navigation" aria-label="Menu" className="flex">
           <ul className="flex items-center text-sm">
@@ -109,15 +110,16 @@ function Content({ children }: { children: React.ReactNode }) {
       <footer className="sm:p-8 md:p-16 sm:mt-16 sm:text-sm md:text-base md:mt-32 bg-slate-50 dark:bg-card border-t p-6 mt-8 flex flex-col sm:flex-row sm:justify-between gap-4 text-xs [&_a]:underline">
         <div className="flex flex-col space-y-2">
           <div className="sm:text-lg font-semibold text-base flex space-x-2 items-center">
-            <Link className="flex items-center gap-2" href="/">
+            <div className="flex items-center gap-2">
               <Image
-                src="/logo-with-text.png"
-                className="m-1 h-auto w-auto"
-                width={(35 * 522) / 180}
-                height={35}
-                alt="Spliit"
+                src="/hero.png"
+                className="h-8 w-8 rounded-lg object-cover"
+                width={32}
+                height={32}
+                alt="Split Wise"
               />
-            </Link>
+              <span className="font-extrabold text-base text-slate-800 dark:text-slate-100 tracking-tight">Split Wise</span>
+            </div>
           </div>
           <div className="flex flex-col space-y a--no-underline-text-white">
             <span>{t('Footer.madeIn')}</span>

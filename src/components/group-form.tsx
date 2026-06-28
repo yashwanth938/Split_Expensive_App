@@ -123,11 +123,11 @@ export function GroupForm({
           )
         })}
       >
-        <Card className="mb-4">
-          <CardHeader>
-            <CardTitle>{t('title')}</CardTitle>
+        <Card className="mb-6 rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+          <CardHeader className="pb-4 p-5 sm:p-6 border-b border-slate-100 dark:border-slate-900/60 mb-6 bg-slate-50/50 dark:bg-slate-900/10">
+            <CardTitle className="text-xl font-bold text-slate-800 dark:text-slate-100">{t('title')}</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 sm:p-6 pt-0">
             <FormField
               control={form.control}
               name="name"
@@ -233,13 +233,13 @@ export function GroupForm({
           </CardContent>
         </Card>
 
-        <Card className="mb-4">
-          <CardHeader>
-            <CardTitle>{t('Participants.title')}</CardTitle>
-            <CardDescription>{t('Participants.description')}</CardDescription>
+        <Card className="mb-6 rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+          <CardHeader className="pb-4 p-5 sm:p-6 border-b border-slate-100 dark:border-slate-900/60 mb-6 bg-slate-50/50 dark:bg-slate-900/10">
+            <CardTitle className="text-xl font-bold text-slate-800 dark:text-slate-100">{t('Participants.title')}</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground mt-1">{t('Participants.description')}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ul className="flex flex-col gap-2">
+          <CardContent className="p-5 sm:p-6 pt-0">
+            <ul className="flex flex-col gap-3">
               {fields.map((item, index) => (
                 <li key={item.key}>
                   <FormField
@@ -253,7 +253,7 @@ export function GroupForm({
                         <FormControl>
                           <div className="flex gap-2">
                             <Input
-                              className="text-base"
+                              className="text-base h-10"
                               {...field}
                               placeholder={t('Participants.new')}
                             />
@@ -263,7 +263,7 @@ export function GroupForm({
                                 <HoverCardTrigger>
                                   <Button
                                     variant="ghost"
-                                    className="text-destructive-"
+                                    className="text-destructive h-10 w-10 p-0"
                                     type="button"
                                     size="icon"
                                     disabled
@@ -281,7 +281,7 @@ export function GroupForm({
                             ) : (
                               <Button
                                 variant="ghost"
-                                className="text-destructive"
+                                className="text-destructive hover:bg-rose-50 dark:hover:bg-rose-950/20 h-10 w-10 p-0"
                                 onClick={() => remove(index)}
                                 type="button"
                                 size="icon"
@@ -299,9 +299,10 @@ export function GroupForm({
               ))}
             </ul>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="p-5 sm:p-6 pt-0 flex justify-start">
             <Button
-              variant="secondary"
+              variant="outline"
+              className="border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 h-9 px-4 rounded-lg text-xs font-semibold"
               onClick={() => {
                 append({ name: '' })
               }}
@@ -312,13 +313,13 @@ export function GroupForm({
           </CardFooter>
         </Card>
 
-        <Card className="mb-4">
-          <CardHeader>
-            <CardTitle>{t('Settings.title')}</CardTitle>
-            <CardDescription>{t('Settings.description')}</CardDescription>
+        <Card className="mb-6 rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+          <CardHeader className="pb-4 p-5 sm:p-6 border-b border-slate-100 dark:border-slate-900/60 mb-6 bg-slate-50/50 dark:bg-slate-900/10">
+            <CardTitle className="text-xl font-bold text-slate-800 dark:text-slate-100">{t('Settings.title')}</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground mt-1">{t('Settings.description')}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid sm:grid-cols-2 gap-4">
+          <CardContent className="p-5 sm:p-6 pt-0">
+            <div className="grid sm:grid-cols-2 gap-6">
               {activeUser !== null && (
                 <FormItem>
                   <FormLabel>{t('Settings.ActiveUserField.label')}</FormLabel>
@@ -329,7 +330,7 @@ export function GroupForm({
                       }}
                       defaultValue={activeUser}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="h-10">
                         <SelectValue
                           placeholder={t(
                             'Settings.ActiveUserField.placeholder',
@@ -350,7 +351,7 @@ export function GroupForm({
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-xs text-muted-foreground mt-1">
                     {t('Settings.ActiveUserField.description')}
                   </FormDescription>
                 </FormItem>
@@ -359,16 +360,17 @@ export function GroupForm({
           </CardContent>
         </Card>
 
-        <div className="flex mt-4 gap-2">
+        <div className="flex mt-6 gap-3 items-center">
           <SubmitButton
             loadingContent={t(group ? 'Settings.saving' : 'Settings.creating')}
             onClick={updateActiveUser}
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold shadow-sm transition-all duration-300 h-10 px-5 rounded-lg"
           >
             <Save className="w-4 h-4 mr-2" />{' '}
             {t(group ? 'Settings.save' : 'Settings.create')}
           </SubmitButton>
           {!group && (
-            <Button variant="ghost" asChild>
+            <Button variant="outline" className="border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 h-10 px-5 rounded-lg text-slate-700 dark:text-slate-300 font-medium" asChild>
               <Link href="/groups">{t('Settings.cancel')}</Link>
             </Button>
           )}

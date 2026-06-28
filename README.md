@@ -1,3 +1,5 @@
+# <img alt="Split Wise Logo" height="80" src="./public/hero.png" />
+
 # Split Wise — Modern AI-Powered Expense Splitting
 
 **Split Wise** is a modern, premium, privacy-first alternative to Splitwise. Built as a sleek Progressive Web App (PWA), it requires **no registration or login**—your groups are saved directly to your browser's local storage. Simply create a group, share the link, and begin managing shared expenses.
@@ -90,6 +92,45 @@ Auto-deduce categories from titles by adding:
 NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT=true
 OPENAI_API_KEY="your-openai-api-key"
 ```
+
+---
+
+## ⚡ Vercel Deployment Guide
+
+Deploying Split Wise to Vercel is highly streamlined. Follow these steps to host your own production instance:
+
+### 1. Database Setup
+Since this application uses PostgreSQL with Prisma, you will need a running database. You can provision a free Postgres instance from:
+- **Supabase** (Database section)
+- **Neon Serverless Postgres** (neon.tech)
+- **Vercel Postgres** (built-in Vercel storage integrations)
+
+Once provisioned, get the **Transaction Connection String** (for pooling) and the **Direct Connection String** (without pooling).
+
+### 2. Deploy via Vercel Dashboard
+1. Go to the [Vercel Dashboard](https://vercel.com) and click **Add New** > **Project**.
+2. Import your GitHub repository (`https://github.com/yashwanth938/Split_Expensive_App`).
+3. Under **Configure Project**, set the **Build Command** to:
+   ```bash
+   prisma generate && next build
+   ```
+4. Add the following **Environment Variables**:
+   * `POSTGRES_PRISMA_URL`: Your pooled database connection string.
+   * `POSTGRES_URL_NON_POOLING`: Your direct database connection string.
+   * `NEXT_PUBLIC_DEFAULT_CURRENCY_CODE`: (Optional) e.g., `"USD"` or `"EUR"`.
+   * `NEXT_PUBLIC_ENABLE_EXPENSE_DOCUMENTS`: (Optional) `"true"` if using receipts.
+   * `NEXT_PUBLIC_ENABLE_RECEIPT_EXTRACT`: (Optional) `"true"` if using AI scanner.
+   * `NEXT_PUBLIC_ENABLE_CATEGORY_EXTRACT`: (Optional) `"true"` if using AI auto-categories.
+   * `OPENAI_API_KEY`: (Optional) OpenAI API key.
+5. Click **Deploy**. Vercel will build the Next.js routes and compile the Prisma client.
+
+### 3. Apply Schema Migrations
+To create tables in your remote database, run the Prisma migration deploy command locally from your workspace, referencing your live database:
+```bash
+$env:POSTGRES_PRISMA_URL="your_live_database_connection_string"
+npx prisma migrate deploy
+```
+Alternatively, you can run `npx prisma db push` to push the schema directly.
 
 ---
 
