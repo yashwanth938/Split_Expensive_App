@@ -269,6 +269,39 @@ export function ExpenseForm({
         },
   })
   const [isCategoryLoading, setCategoryLoading] = useState(false)
+  const RECOMMENDATIONS = [
+    'eggs',
+    'eggs and veggies',
+    'eggs and milk',
+    'milk',
+    'dmart',
+    'outside food',
+    'chicken',
+    'chicken and veggies'
+  ]
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const titleValue = form.watch('title') || ''
+  const filteredSuggestions = titleValue
+    ? RECOMMENDATIONS.filter((item) =>
+        item.toLowerCase().includes(titleValue.toLowerCase()) &&
+        item.toLowerCase() !== titleValue.toLowerCase()
+      )
+    : RECOMMENDATIONS
+
+  const selectSuggestion = async (val: string) => {
+    form.setValue('title', val, {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    })
+    setShowSuggestions(false)
+    if (runtimeFeatureFlags.enableCategoryExtract) {
+      setCategoryLoading(true)
+      const { categoryId } = await extractCategoryFromTitle(val)
+      form.setValue('category', categoryId)
+      setCategoryLoading(false)
+    }
+  }
   const activeUserId = useActiveUser(group.id)
 
   const submit = async (values: ExpenseFormValues) => {
@@ -453,14 +486,17 @@ export function ExpenseForm({
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="">
+                <FormItem className="relative">
                   <FormLabel>{t(`${sExpense}.TitleField.label`)}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t(`${sExpense}.TitleField.placeholder`)}
                       className="text-base"
                       {...field}
+                      onFocus={() => setShowSuggestions(true)}
                       onBlur={async () => {
+                        // Delay hiding suggestions to let clicks register
+                        setTimeout(() => setShowSuggestions(false), 200)
                         field.onBlur() // avoid skipping other blur event listeners since we overwrite `field`
                         if (runtimeFeatureFlags.enableCategoryExtract) {
                           setCategoryLoading(true)
@@ -473,6 +509,24 @@ export function ExpenseForm({
                       }}
                     />
                   </FormControl>
+                  {showSuggestions && filteredSuggestions.length > 0 && (
+                    <div className="absolute z-50 w-full mt-1 max-h-60 overflow-y-auto rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-lg backdrop-blur-md py-1.5 focus:outline-none">
+                      {filteredSuggestions.map((suggestion) => (
+                        <button
+                          key={suggestion}
+                          type="button"
+                          onMouseDown={(e) => {
+                            // Prevent blur from closing the list before click is registered
+                            e.preventDefault()
+                          }}
+                          onClick={() => selectSuggestion(suggestion)}
+                          className="flex w-full items-center px-4 py-2.5 text-sm text-left hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 transition-colors"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   <FormDescription>
                     {t(`${sExpense}.TitleField.description`)}
                   </FormDescription>
