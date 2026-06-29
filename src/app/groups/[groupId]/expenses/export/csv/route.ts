@@ -1,7 +1,7 @@
 import { getCurrency } from '@/lib/currency'
 import { formatAmountAsDecimal, getCurrencyFromGroup } from '@/lib/utils'
 import { Parser } from '@json2csv/plainjs'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import contentDisposition from 'content-disposition'
 import { NextResponse } from 'next/server'
 
@@ -19,8 +19,6 @@ function formatDate(isoDateString: Date): string {
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}` // YYYY-MM-DD format
 }
-
-const prisma = new PrismaClient()
 
 export async function GET(
   req: Request,
