@@ -1,12 +1,18 @@
 import { PrismaClient } from '@prisma/client'
 
 const getDatabaseUrl = () => {
+  const envUrl = process.env.DATABASE_URL
+  const isLocal = envUrl?.includes('localhost') || envUrl?.includes('127.0.0.1')
+  
+  if (envUrl && (!isLocal || process.env.NODE_ENV !== 'production')) {
+    return envUrl
+  }
   return (
-    process.env.DATABASE_URL ||
     process.env.groupnamed_DATABASE_URL ||
     process.env.STORAGE_DATABASE_URL ||
     process.env.POSTGRES_URL ||
-    process.env.POSTGRES_PRISMA_URL
+    process.env.POSTGRES_PRISMA_URL ||
+    envUrl
   )
 }
 
