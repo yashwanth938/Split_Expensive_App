@@ -121,26 +121,9 @@ function Content({ children }: { children: React.ReactNode }) {
               <span className="font-extrabold text-base text-slate-800 dark:text-slate-100 tracking-tight">Split Wise</span>
             </div>
           </div>
-          <div className="flex flex-col space-y a--no-underline-text-white">
-            <span>{t('Footer.madeIn')}</span>
-            <span>
-              {t.rich('Footer.builtBy', {
-                author: (txt) => (
-                  <a href="https://scastiel.dev" target="_blank" rel="noopener">
-                    {txt}
-                  </a>
-                ),
-                source: (txt) => (
-                  <a
-                    href="https://github.com/spliit-app/spliit/graphs/contributors"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {txt}
-                  </a>
-                ),
-              })}
-            </span>
+          <div className="flex flex-col space-y-1.5 text-slate-500 dark:text-slate-400 mt-2">
+            <span>Created by <strong className="text-slate-800 dark:text-slate-200">Yash</strong></span>
+            <span>Built using <strong className="text-slate-800 dark:text-slate-200">Antigravity AI</strong> (by Google DeepMind)</span>
           </div>
         </div>
       </footer>

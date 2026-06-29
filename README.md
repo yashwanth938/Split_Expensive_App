@@ -1,6 +1,8 @@
 # <img alt="Split Wise Logo" height="80" src="./public/hero.png" />
 
-# Split Wise — Modern AI-Powered Expense Splitting
+# Yash's Split Wise — Modern AI-Powered Expense Splitting
+
+Created by **Yash** using **Antigravity AI** (a Google DeepMind agentic coding assistant).
 
 **Split Wise** is a modern, premium, privacy-first alternative to Splitwise. Built as a sleek Progressive Web App (PWA), it requires **no registration or login**—your groups are saved directly to your browser's local storage. Simply create a group, share the link, and begin managing shared expenses.
 
