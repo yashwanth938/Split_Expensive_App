@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma migrate deploy && next build",
+    "build": "export DATABASE_URL=\"${DATABASE_URL:-${groupnamed_DATABASE_URL:-${STORAGE_DATABASE_URL:-${POSTGRES_URL:-${POSTGRES_PRISMA_URL:-$groupnamed_POSTGRES_URL}}}}}\" && prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
